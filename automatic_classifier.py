@@ -14,15 +14,21 @@ import tensorflow as tf
 from keras import metrics
 from sklearn.preprocessing import LabelEncoder 
 from sklearn.model_selection import train_test_split  
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import SGDClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB  
 from sklearn.ensemble import AdaBoostClassifier
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
+from catboost import CatBoostClassifier
+
+
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
@@ -30,6 +36,14 @@ from sklearn.tree import DecisionTreeRegressor
 from lightgbm import LGBMRegressor
 from xgboost.sklearn import XGBRegressor
 from sklearn.ensemble import AdaBoostRegressor
+from catboost import CatBoostRegressor
+from sklearn.linear_model import SGDRegressor
+from sklearn.kernel_ridge import KernelRidge
+from sklearn.linear_model import ElasticNet
+from sklearn.linear_model import BayesianRidge
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from sklearn.metrics import r2_score
@@ -46,13 +60,13 @@ def neural_network_classification_multiclass(x_train, x_test, y_train, y_test, D
     start = time.time()
     
     model = Sequential()        
-    model.add(Dense(128, input_dim=input_dim1, kernel_initializer='normal', activation='relu'))
-    Dropout(0.2),
-    model.add(Dense(64, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(16, input_dim=input_dim1, kernel_initializer='normal', activation='relu'))
     Dropout(0.2),
     model.add(Dense(32, kernel_initializer='normal', activation='relu'))
     Dropout(0.2),
-    model.add(Dense(16, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(64, kernel_initializer='normal', activation='relu'))
+    Dropout(0.2),
+    model.add(Dense(128, kernel_initializer='normal', activation='relu'))
     Dropout(0.2),
     model.add(Dense(num, activation='softmax'))
     model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -81,13 +95,13 @@ def neural_network_classification_binary(x_train, x_test, y_train, y_test, D):
     start = time.time()
     
     model = Sequential()        
-    model.add(Dense(128, input_dim=input_dim1, kernel_initializer='normal', activation='relu'))
-    Dropout(0.2),
-    model.add(Dense(64, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(16, input_dim=input_dim1, kernel_initializer='normal', activation='relu'))
     Dropout(0.2),
     model.add(Dense(32, kernel_initializer='normal', activation='relu'))
     Dropout(0.2),
-    model.add(Dense(16, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(64, kernel_initializer='normal', activation='relu'))
+    Dropout(0.2),
+    model.add(Dense(128, kernel_initializer='normal', activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     model.fit(x_train, y_train, epochs=100, verbose=0)
@@ -115,13 +129,13 @@ def neural_network_regression(x_train, x_test, y_train, y_test, loss, act_func, 
     start = time.time()
     
     model = Sequential()        
-    model.add(Dense(128, input_dim=input_dim1, kernel_initializer='normal', activation='relu'))
-    Dropout(0.2),
-    model.add(Dense(64, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(16, input_dim=input_dim1, kernel_initializer='normal', activation='relu'))
     Dropout(0.2),
     model.add(Dense(32, kernel_initializer='normal', activation='relu'))
     Dropout(0.2),
-    model.add(Dense(16, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(64, kernel_initializer='normal', activation='relu'))
+    Dropout(0.2),
+    model.add(Dense(128, kernel_initializer='normal', activation='relu'))
     model.add(Dense(1,kernel_initializer='normal', activation=act_func))
     
     model.compile(loss=loss, optimizer='adam', metrics=['mse'])
@@ -189,6 +203,10 @@ def classification_report_generation(df, target, n):
         Multiclass_Classification(x_train, x_test, y_train, y_test, AdaBoostClassifier(),"Ada Boost Classifier",D)
         Multiclass_Classification(x_train, x_test, y_train, y_test, SVC(),"SVM Classifier",D)
         neural_network_classification_binary(x_train, x_test, y_train, y_test, D)
+        Multiclass_Classification(x_train, x_test, y_train, y_test, SGDClassifier(),"Stochastic Gradient Descent Classifier",D)
+        Multiclass_Classification(x_train, x_test, y_train, y_test, KNeighborsClassifier(),"k-nearest neighbor Classifier",D)
+        Multiclass_Classification(x_train, x_test, y_train, y_test, CatBoostClassifier(),"Cat Boost Classifier",D)
+        Multiclass_Classification(x_train, x_test, y_train, y_test, LinearDiscriminantAnalysis(),"Linear Discriminant Analysis",D)
 
     if n>2:
         #check the evaluation metric with different classifiers out of that xgboost is performing well 
@@ -202,7 +220,11 @@ def classification_report_generation(df, target, n):
         Multiclass_Classification(x_train, x_test, y_train, y_test, AdaBoostClassifier(),"Ada Boost Classifier",D)
         Multiclass_Classification(x_train, x_test, y_train, y_test, SVC(),"SVM Classifier",D)
         neural_network_classification_multiclass(x_train, x_test, y_train, y_test, D, num=n)
-
+        Multiclass_Classification(x_train, x_test, y_train, y_test, SGDClassifier(),"Stochastic Gradient Descent Classifier",D)
+        Multiclass_Classification(x_train, x_test, y_train, y_test, KNeighborsClassifier(),"k-nearest neighbor Classifier",D)
+        Multiclass_Classification(x_train, x_test, y_train, y_test, CatBoostClassifier(),"Cat Boost Classifier",D)
+        Multiclass_Classification(x_train, x_test, y_train, y_test, LinearDiscriminantAnalysis(),"Linear Discriminant Analysis",D)
+    
     Classfication_report = pd.DataFrame(D)
 
     return Classfication_report
@@ -246,6 +268,15 @@ def regression_report_generation(df, target):
     Regression(x_train, x_test, y_train, y_test, XGBRegressor(), "Xg Boost Regressor", D, df_test, df_train) 
     Regression(x_train, x_test, y_train, y_test, AdaBoostRegressor(), "Ada Boost Regressor", D, df_test, df_train) 
     neural_network_regression(x_train, x_test, y_train, y_test, "MeanSquaredError","linear", D, df_test, df_train)
+    Regression(x_train, x_test, y_train, y_test, CatBoostRegressor(), "Cat Boost regressor", D, df_test, df_train) 
+    Regression(x_train, x_test, y_train, y_test, SGDRegressor(), "Stochastic Gradient Descent Regressor", D, df_test, df_train) 
+    Regression(x_train, x_test, y_train, y_test, KernelRidge(), "Kernel Ridge Regressor", D, df_test, df_train) 
+    Regression(x_train, x_test, y_train, y_test, ElasticNet(), "Elastic Net Regressor", D, df_test, df_train) 
+    Regression(x_train, x_test, y_train, y_test, BayesianRidge(), "Bayesian Ridge Regressor", D, df_test, df_train) 
+    Regression(x_train, x_test, y_train, y_test, GradientBoostingRegressor(), "Gradient Boosting Regressor", D, df_test, df_train) 
+    Regression(x_train, x_test, y_train, y_test, ElasticNet(), "Elastic Net Regressor", D, df_test, df_train) 
+    
+    
     regression_report = pd.DataFrame(D)
     return regression_report
 
@@ -254,13 +285,13 @@ def regression_report_generation(df, target):
 # df['X5'] = labelencoder.fit_transform(df['X5']) 
 # df.drop('Target_Class', axis=1, inplace =True)
 
-df=pd.read_csv("data.csv")
-df=df.fillna(0)
-labelencoder= LabelEncoder() 
-df['diagnosis'] = labelencoder.fit_transform(df['diagnosis'])
+# df=pd.read_csv("data.csv")
+# df=df.fillna(0)
+# labelencoder= LabelEncoder() 
+# df['diagnosis'] = labelencoder.fit_transform(df['diagnosis'])
 
-#regression_report_generation(df, target="diagnosis")
-classification_report_generation(df, "diagnosis", n=2)
+# #regression_report_generation(df, target="diagnosis")
+# classification_report_generation(df, "diagnosis", n=2)
 
 # df=pd.read_csv("Classification_Assignment_Normalised_LessOutliers.csv")
 # labelencoder= LabelEncoder() 
