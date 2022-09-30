@@ -1,4 +1,5 @@
 dist
 build
-AutoClassifierRegressor.egg-info
+*egg-info
+*egg-info/*
 .DS_Store
