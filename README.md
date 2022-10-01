@@ -24,7 +24,7 @@
     3. path = name of folder (optional)
     4. saveModel = if set as True then all ML models will be saved in "Models" folder (optional)
 
-#### Prerequisite:
+#### Prerequisites:
 
     1. Label Encode all Categorical Variables including target classification variable
     2. Install all dependancies
