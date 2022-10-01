@@ -22,7 +22,7 @@
     1. n=2 for binary classification
     2. n=no of classes for multiclass classification
     3. path = name of folder (optional)
-    4. saveModel = if set as #####True then all ML models will be saved in "Models" folder (optional)
+    4. saveModel = if set as True then all ML models will be saved in "Models" folder (optional)
 
 #### Prerequisite:
 
