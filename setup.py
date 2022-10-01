@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 REQUIREMENTS = ['pandas', 'numpy', 'sklearn',
-                'xgboost', 'lightgbm', 'tensorflow', 'keras', 'catboost', 'plotly', 'os', 'joblib']
+                'xgboost', 'lightgbm', 'tensorflow', 'keras', 'catboost', 'plotly', 'joblib']
 
 
 # calling the setup function
