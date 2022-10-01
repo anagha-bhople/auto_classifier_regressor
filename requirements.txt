@@ -6,3 +6,6 @@ lightgbm
 tensorflow
 keras
 catboost
+plotly
+os
+joblib
