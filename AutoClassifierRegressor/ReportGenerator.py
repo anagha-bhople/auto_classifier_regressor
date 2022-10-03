@@ -50,9 +50,22 @@ from sklearn import metrics
 import plotly.graph_objects as go
 import joblib
 import os
+import decimal
 from sklearn.ensemble import StackingClassifier
 from sklearn.ensemble import StackingRegressor
 from sklearn import preprocessing
+
+
+def round_up(x, place=0):
+    context = decimal.getcontext()
+    # get the original setting so we can put it back when we're done
+    original_rounding = context.rounding
+    # change context to act like ceil()
+    context.rounding = decimal.ROUND_CEILING
+
+    rounded = round(decimal.Decimal(str(x)), place)
+    context.rounding = original_rounding
+    return float(rounded)
 
 
 def convert_plotly_plots_to_html(fig, path, name):
