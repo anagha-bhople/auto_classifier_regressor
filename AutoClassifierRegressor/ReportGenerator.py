@@ -65,21 +65,21 @@ def convert_df_to_plotly_table(df, title=""):
 
     n = len(list(df.columns))
     fig = go.Figure(data=[go.Table(
-    columnwidth=[1000]*n,
-    header=dict(values=list(df.columns),
-                line_color='white',
-                fill_color='#24478f',
-                align=['left', 'center'],
-                font=dict(color='seashell', size=15),
-                height=50),
+        columnwidth=[1000]*n,
+        header=dict(values=list(df.columns),
+                    line_color='white',
+                    fill_color='#24478f',
+                    align=['left', 'center'],
+                    font=dict(color='seashell', size=15),
+                    height=50),
 
-    cells=dict(values=df.transpose().values.tolist(),
-               line_color='white',
-               fill_color=[[rowOddColor, rowEvenColor]*1000],
-               align=['left', 'center'],
-               font=dict(color='black', size=15),
-               height=40
-              ))])
+        cells=dict(values=df.transpose().values.tolist(),
+                   line_color='white',
+                   fill_color=[[rowOddColor, rowEvenColor]*1000],
+                   align=['left', 'center'],
+                   font=dict(color='black', size=15),
+                   height=40
+                   ))])
 
     fig.update_layout(
         margin=dict(l=0, r=0, t=50, b=0),
@@ -128,8 +128,8 @@ def neural_network_classification_multiclass(x_train, x_test, y_train, y_test, D
     D['Recall'].append(round_up(recall, 3))
 
     if saveModel:
-      if not os.path.exists(path+"/Models"):
-        os.makedirs(path+"/Models")
+        if not os.path.exists(path+"/Models"):
+            os.makedirs(path+"/Models")
     joblib.dump(model, path + "/Models" + "/" + name + '.pkl')
 
 
@@ -171,8 +171,8 @@ def neural_network_classification_binary(x_train, x_test, y_train, y_test, D, sa
     D['Recall'].append(round_up(recall, 3))
 
     if saveModel:
-      if not os.path.exists(path+"/Models"):
-        os.makedirs(path+"/Models")
+        if not os.path.exists(path+"/Models"):
+            os.makedirs(path+"/Models")
     joblib.dump(model, path + "/Models" + "/" + name + '.pkl')
 
 
@@ -213,30 +213,30 @@ def neural_network_regression(x_train, x_test, y_train, y_test, loss, act_func, 
     D['Time_taken'].append(round_up(time_taken, 5))
     D['MAE'].append(round_up(mae, 5))
     D['R-Square'].append(round_up(r_square, 5))
-    D['Adjusted-R-Square'].append(round_up(adjuste
+    D['Adjusted-R-Square'].append(round_up(adjusted_r_squared, 5))
 
     if saveModel:
-      if not os.path.exists(path+"/Models"):
-        os.makedirs(path+"/Models")
+        if not os.path.exists(path+"/Models"):
+            os.makedirs(path+"/Models")
     joblib.dump(model, path + "/Models" + "/" + name + '.pkl')
 
 
 def Multiclass_Classification(X_train, X_test, y_train, y_test, classifier, name, D, saveModel, path):
-    start=time.time()
+    start = time.time()
     # Define model
-    model=classifier
+    model = classifier
     # Training model
     model.fit(X_train, y_train)
     # Prediction using model
-    y_pred=model.predict(X_test)
+    y_pred = model.predict(X_test)
     # evaluating model
-    Accuracy_score=accuracy_score(y_test, y_pred)
-    F1_score=f1_score(y_test, y_pred, average='weighted')
-    precision_scores=precision_score(y_test, y_pred, average="macro")
-    recall_scores=recall_score(y_test, y_pred, average="macro")
+    Accuracy_score = accuracy_score(y_test, y_pred)
+    F1_score = f1_score(y_test, y_pred, average='weighted')
+    precision_scores = precision_score(y_test, y_pred, average="macro")
+    recall_scores = recall_score(y_test, y_pred, average="macro")
 
-    end=time.time()
-    time_taken=(end - start)
+    end = time.time()
+    time_taken = (end - start)
 
     D['Accuracy'].append(round_up(Accuracy_score, 3))
     D['F1_score'].append(round_up(F1_score, 3))
@@ -245,38 +245,39 @@ def Multiclass_Classification(X_train, X_test, y_train, y_test, classifier, name
     D['Precision'].append(round_up(precision_scores, 3))
     D['Recall'].append(round_up(recall_scores, 3))
 
-
     if saveModel:
-      if not os.path.exists(path+"/Models"):
-        os.makedirs(path+"/Models")
+        if not os.path.exists(path+"/Models"):
+            os.makedirs(path+"/Models")
     joblib.dump(model, path + "/Models" + "/" + name + '.pkl')
 
+
 def preprocessing_df(df):
-  cols=list(df._get_numeric_data().columns)
-  object_cols=[col for col in list(df.columns) if col not in cols]
-  df[cols]=df[cols].fillna(0)
-  df[object_cols]=df[object_cols].apply(
-      lambda x: x.fillna(x.value_counts().index[0]))
-  labelencoder=LabelEncoder()
-  for i in object_cols:
-      df[i]=labelencoder.fit_transform(df[i])
-  return df
+    cols = list(df._get_numeric_data().columns)
+    object_cols = [col for col in list(df.columns) if col not in cols]
+    df[cols] = df[cols].fillna(0)
+    df[object_cols] = df[object_cols].apply(
+        lambda x: x.fillna(x.value_counts().index[0]))
+    labelencoder = LabelEncoder()
+    for i in object_cols:
+        df[i] = labelencoder.fit_transform(df[i])
+    return df
+
 
 def classification_report_generation(df, target, n, path=".", saveModel=False):
 
     if not os.path.exists(path):
         os.makedirs(path)
 
-    df=preprocessing_df(df)
+    df = preprocessing_df(df)
 
-
-    D={'Classifier_name': [], 'Accuracy': [], 'F1_score': [],
+    D = {'Classifier_name': [], 'Accuracy': [], 'F1_score': [],
          'Precision': [], 'Recall': [], 'Time_taken': []}
-    # Selecting the columns and dividing data into train and test
-    df_train=df[[col for col in list(df.columns) if col != target]]
-    df_test=df[target]
 
-    x_train, x_test, y_train, y_test=train_test_split(
+    # Selecting the columns and dividing data into train and test
+    df_train = df[[col for col in list(df.columns) if col != target]]
+    df_test = df[target]
+
+    x_train, x_test, y_train, y_test = train_test_split(
         df_train, df_test, test_size=0.20, random_state=0)
 
     if n == 2:
@@ -328,14 +329,14 @@ def classification_report_generation(df, target, n, path=".", saveModel=False):
         ), "Passive Aggressive Classifier", D, saveModel, path)
         print("Running Bagging Classifier")
         Multiclass_Classification(x_train, x_test, y_train, y_test, BaggingClassifier(base_estimator=SVC()),
-        "Bagging Classifier", D, saveModel, path)
+                                  "Bagging Classifier", D, saveModel, path)
         print("Running Stacking Classifier")
-        estimators=[('logistic', LogisticRegression()),
+        estimators = [('logistic', LogisticRegression(multi_class='multinomial', max_iter=10000,  solver='lbfgs')),
                       ('gradient_boosting', GradientBoostingClassifier()),
                       ('lightgbm', LGBMClassifier()),
                       ('catboost', CatBoostClassifier(verbose=False))]
         Multiclass_Classification(x_train, x_test, y_train, y_test, StackingClassifier(estimators=estimators, final_estimator=XGBClassifier()),
-        "Stacking Classifier", D, saveModel, path)
+                                  "Stacking Classifier", D, saveModel, path)
 
     if n > 2:
         # check the evaluation metric with different classifiers out of that xgboost is performing well
@@ -388,20 +389,19 @@ def classification_report_generation(df, target, n, path=".", saveModel=False):
         ), "Passive Aggressive Classifier", D, saveModel, path)
         print("Running Bagging Classifier")
         Multiclass_Classification(x_train, x_test, y_train, y_test, BaggingClassifier(base_estimator=SVC()),
-        "Bagging Classifier", D, saveModel, path)
+                                  "Bagging Classifier", D, saveModel, path)
         print("Running Stacking Classifier")
-        estimators=[('logistic', LogisticRegression(multi_class='multinomial', max_iter=10000,  solver='lbfgs')),
+        estimators = [('logistic', LogisticRegression(multi_class='multinomial', max_iter=10000,  solver='lbfgs')),
                       ('gradient_boosting', GradientBoostingClassifier()),
                       ('lightgbm', LGBMClassifier()),
                       ('catboost', CatBoostClassifier(verbose=False)),
                       ('adaboost', AdaBoostClassifier())]
         Multiclass_Classification(x_train, x_test, y_train, y_test, StackingClassifier(estimators=estimators, final_estimator=XGBClassifier()),
-        "Stacking Classifier", D, saveModel, path)
+                                  "Stacking Classifier", D, saveModel, path)
 
+    Classfication_report = pd.DataFrame(D)
 
-    Classfication_report=pd.DataFrame(D)
-
-    fig_class_report=convert_df_to_plotly_table(
+    fig_class_report = convert_df_to_plotly_table(
         Classfication_report, title="Classification Report")
     convert_plotly_plots_to_html(
         fig_class_report, path, "CLASSIFICATION REPORT")
@@ -410,24 +410,24 @@ def classification_report_generation(df, target, n, path=".", saveModel=False):
 
 
 def Regression(X_train, X_test, y_train, y_test, regres, name, D, df_test, df_train, saveModel, path):
-    start=time.time()
-    model=regres
+    start = time.time()
+    model = regres
     # Training model
     model.fit(X_train, y_train)
     # Prediction using model
-    y_pred=model.predict(X_test)
+    y_pred = model.predict(X_test)
     # error calculation
-    mse=mean_squared_error(y_test, y_pred, squared=True)
-    rmse=mean_squared_error(y_test, y_pred, squared=False)
-    mae=mean_absolute_error(y_test, y_pred)
+    mse = mean_squared_error(y_test, y_pred, squared=True)
+    rmse = mean_squared_error(y_test, y_pred, squared=False)
+    mae = mean_absolute_error(y_test, y_pred)
     # getting R Squared
-    r_square=(r2_score(y_test, y_pred))
+    r_square = (r2_score(y_test, y_pred))
     # getting adjusted R Squared
-    adjusted_r_squared=1 - \
+    adjusted_r_squared = 1 - \
         (1 - r_square) * (len(df_test) - 1) / \
         (len(df_test) - df_train.shape[1] - 1)
-    end=time.time()
-    time_taken=(end - start)
+    end = time.time()
+    time_taken = (end - start)
     D['MSE'].append(round_up(mse, 5))
     D['RMSE'].append(round_up(rmse, 5))
     D['Regressor_name'].append(name)
@@ -436,8 +436,8 @@ def Regression(X_train, X_test, y_train, y_test, regres, name, D, df_test, df_tr
     D['R-Square'].append(round_up(r_square, 5))
     D['Adjusted-R-Square'].append(round_up(adjusted_r_squared, 5))
     if saveModel:
-      if not os.path.exists(path+"/Models"):
-        os.makedirs(path+"/Models")
+        if not os.path.exists(path+"/Models"):
+            os.makedirs(path+"/Models")
     joblib.dump(model, path + "/Models" + "/" + name + '.pkl')
 
 
@@ -445,19 +445,19 @@ def regression_report_generation(df, target, path=".", saveModel=False, normalis
     if not os.path.exists(path):
         os.makedirs(path)
 
-    df=preprocessing_df(df)
+    df = preprocessing_df(df)
 
     if normalisation:
-      names=list(df.columns)
-      d=preprocessing.normalize(df, axis=0)
-      df=pd.DataFrame(d, columns=names)
+        names = list(df.columns)
+        d = preprocessing.normalize(df, axis=0)
+        df = pd.DataFrame(d, columns=names)
 
-    D={'Regressor_name': [], 'MSE': [], 'RMSE': [], 'MAE': [],
+    D = {'Regressor_name': [], 'MSE': [], 'RMSE': [], 'MAE': [],
          'R-Square': [], 'Adjusted-R-Square': [], 'Time_taken': []}
     # Selecting the columns and dividing data into train and test
-    df_train=df[[col for col in list(df.columns) if col != target]]
-    df_test=df[target]
-    x_train, x_test, y_train, y_test=train_test_split(
+    df_train = df[[col for col in list(df.columns) if col != target]]
+    df_test = df[target]
+    x_train, x_test, y_train, y_test = train_test_split(
         df_train, df_test, test_size=0.20, random_state=0)
     print("Running Linear Regressor")
     Regression(x_train, x_test, y_train, y_test, LinearRegression(),
@@ -508,16 +508,17 @@ def regression_report_generation(df, target, path=".", saveModel=False, normalis
     Regression(x_train, x_test, y_train, y_test, KNeighborsRegressor(),
                "K Nearest Neighbors Regressor", D, df_test, df_train, saveModel, path)
     print("Running Stacking Regressor")
-    estimators=[('logistic', LinearRegression()),
+    estimators = [('logistic', LinearRegression()),
                   ('gradient_boosting', GradientBoostingRegressor()),
                   ('lightgbm', LGBMRegressor()),
                   ('catboost', CatBoostRegressor(verbose=False)),
                   ('adaboost', AdaBoostRegressor())]
     Regression(x_train, x_test, y_train, y_test, StackingRegressor(estimators=estimators, final_estimator=XGBRegressor()),
-        "Stacking Classifier", D, df_test, df_train
-    regression_report=pd.DataFrame(D)
+               "Stacking Classifier", D, df_test, df_train, saveModel, path)
 
-    fig_reg_report=convert_df_to_plotly_table(
+    regression_report = pd.DataFrame(D)
+
+    fig_reg_report = convert_df_to_plotly_table(
         regression_report, title="Regression Report")
     convert_plotly_plots_to_html(fig_reg_report, path, "REGRESSION REPORT")
 
