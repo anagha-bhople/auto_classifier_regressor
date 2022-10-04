@@ -1,6 +1,6 @@
 [project]
 name = "AutoClassifierRegressor"
-version = "0.0.3a2"
+version = "0.0.4"
 authors = [
   { name="Anagha Bhople", email="bhoplea34@gmail.com" },
   { name="Swapnil Dewalkar", email="swapnildewalkar1995@gmail.com" }
