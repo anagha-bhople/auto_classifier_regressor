@@ -45,6 +45,12 @@
         df = pd.read_csv('Iris.csv')
         classification_report_generation(df, "Species", n=3, path="classification_model_Multiclass", saveModel=True)
 
+## Output:
+
+        1. Output will be in the form of html file with tabular analyis of all important classifiers or regressors along with poular evaluation metrics.
+        2. Html file will be saved in current or in given path.
+        3. All ML models will be saved in /Models folder in current or in given path.
+
 ### Prerequisites:
 
     1. Do necessary data processing for better results
