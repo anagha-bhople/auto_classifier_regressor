@@ -276,12 +276,13 @@ def preprocessing_df(df):
     return df
 
 
-def classification_report_generation(df, target, n, path=".", saveModel=False):
+def classification_report_generation(df, target, n, path=".", saveModel=False, preprocessing=False):
 
     if not os.path.exists(path):
         os.makedirs(path)
 
-    df = preprocessing_df(df)
+    if preprocessing:
+        df = preprocessing_df(df)
 
     D = {'Classifier_name': [], 'Accuracy': [], 'F1_score': [],
          'Precision': [], 'Recall': [], 'Time_taken': []}
@@ -454,11 +455,12 @@ def Regression(X_train, X_test, y_train, y_test, regres, name, D, df_test, df_tr
         joblib.dump(model, path + "/Models" + "/" + name + '.pkl')
 
 
-def regression_report_generation(df, target, path=".", saveModel=False, normalisation=False):
+def regression_report_generation(df, target, path=".", saveModel=False, normalisation=False, preprocessing=False):
     if not os.path.exists(path):
         os.makedirs(path)
 
-    df = preprocessing_df(df)
+    if preprocessing:
+        df = preprocessing_df(df)
 
     if normalisation:
         names = list(df.columns)
@@ -527,7 +529,7 @@ def regression_report_generation(df, target, path=".", saveModel=False, normalis
                   ('catboost', CatBoostRegressor(verbose=False)),
                   ('adaboost', AdaBoostRegressor())]
     Regression(x_train, x_test, y_train, y_test, StackingRegressor(estimators=estimators, final_estimator=XGBRegressor()),
-               "Stacking Classifier", D, df_test, df_train, saveModel, path)
+               "Stacking Regressor", D, df_test, df_train, saveModel, path)
 
     regression_report = pd.DataFrame(D)
 

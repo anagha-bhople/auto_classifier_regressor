@@ -10,7 +10,7 @@
 
 ## For Regression call this function with following parameters
 
-    regression_report_generation(dataframe, "target name", path="desired folder name", saveModel=True, normalisation=True)
+    regression_report_generation(dataframe, "target name", path="desired folder name", saveModel=True, normalisation=True,preprocessing=True)
 
 #### Arguments
 
@@ -27,7 +27,7 @@
 
 ## For Classification call this function with following parameters
 
-    classification_report_generation(dataframe, "target label", n= no classes, path="desired folder name", saveModel=True)
+    classification_report_generation(dataframe, "target label", n= no classes, path="desired folder name", saveModel=True,preprocessing=True)
 
 #### Arguments
 
