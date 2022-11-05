@@ -10,7 +10,7 @@
 
 ## For Regression call this function with following parameters
 
-    regression_report_generation(dataframe, "target name", path="desired folder name", saveModel=True, normalisation=True,preprocessing=True)
+    regression_report_generation(dataframe, "target name", path="desired folder name", saveModel=True, normalisation=True, preprocessing=True)
 
 #### Arguments
 
@@ -19,6 +19,7 @@
         3. path = name of folder (optional)
         4. saveModel = if set as True then all ML models will be saved in "Models" folder (optional)
         5. normalisation = if set as True data will be normalised (optional)
+        6. preprocessing = if set as True then data will be preprocessed, which includes fillna and label encoding for categorical variables
 
 #### Example:
 
@@ -27,7 +28,7 @@
 
 ## For Classification call this function with following parameters
 
-    classification_report_generation(dataframe, "target label", n= no classes, path="desired folder name", saveModel=True,preprocessing=True)
+    classification_report_generation(dataframe, "target label", n= no classes, path="desired folder name", saveModel=True, preprocessing=True)
 
 #### Arguments
 
@@ -36,6 +37,7 @@
         3. n=2 for binary classification (required) and n=no of classes for multiclass classification (required)
         4. path = name of folder (optional)
         5. saveModel = if set as True then all ML models will be saved in "Models" folder (optional)
+        6. preprocessing = if set as True then data will be preprocessed, which includes fillna and label encoding for categorical variables
 
 #### Example:
 
